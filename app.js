@@ -129,35 +129,36 @@ const books = [
 // console.log(averageAge);
 
 // // Snack 5
-// // Usando la l'API https://boolean-spec-frontend.vercel.app/freetestapi/books/{id} usa la combinazione di .map() e Promise.all(), per creare una funzione (getBooks) che a partire da un array di id (ids), ritorna una promise che risolve un array di libri (books).
+// // Usando la l'API "http://localhost:3333/books/" usa la combinazione di .map() e Promise.all(), per creare una funzione (getBooks) che a partire da un array di id (ids), ritorna una promise che risolve un array di libri (books).
 // // Testala con l’array[2, 13, 7, 21, 19].
 
-
-// async function getBooks(ids) {
-
-//     const baseUrl = `https://freetestapi/api/v1/books/`;
-
-//     const bookPromises = ids.map(id =>
-//         fetch(`${baseUrl}${id}`)
-//             .then(r => {
-//                 if (!r.ok) throw new Error(`Failed to fetch book with id ${id}`);
-//                 return r.json();
-//             })
-//             .catch(error => {
-//                 console.error(error);
-//                 return null;
-//             })
-//     );
-
-//     const books = await Promise.all(bookPromises);
-
-//     return books;
-// }
+const ids = [2, 13, 7, 21, 19];
+async function getBooks(ids) {
 
 
-// const ids = [2, 13, 7, 21, 19];
+    const baseUrl = "http://localhost:3333/books/";
 
-// getBooks(ids).then(books => console.log(books))
+    const bookPromises = ids.map(id =>
+        fetch(`${baseUrl}${id}`)
+            .then(r => {
+                if (!r.ok) throw new Error(`Failed to fetch book with id ${id}`);
+                return r.json();
+            })
+    );
+
+    try {
+        const books = await Promise.all(bookPromises);
+        return books;
+    } catch (error) {
+        console.error('Error fetching books:', error);
+        return [];
+    }
+}
+
+
+
+
+getBooks(ids).then(books => console.log(books))
 
 
 // // Snack6
